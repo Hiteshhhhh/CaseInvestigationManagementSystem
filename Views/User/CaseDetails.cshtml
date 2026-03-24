@@ -1,0 +1,71 @@
+@model CaseInvestigationManagementSystem.Models.CaseModel
+@{
+    ViewData["Title"] = "Case Details";
+}
+
+<div class="container mt-4">
+    <h3>Case Details</h3>
+    <hr />
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.title</h5>
+            <p><strong>Description:</strong> @Model.description</p>
+            <p><strong>Priority:</strong> @Model.priority</p>
+            <p><strong>Status:</strong> @Model.status</p>
+            <p><strong>Submitted On:</strong> @Model.created_at</p>
+            <p><strong>Deadline:</strong> @Model.deadline</p>
+            <p><strong>Assigned To:</strong>
+                @(Model.investigator_name ?? "Not Assigned")</p>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="container mt-4">
+            <h5 class="mt-4">Comments</h5>
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Comments</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Comments != null && ViewBag.Comments.Count > 0)
+                    {
+                        @foreach (var comments in ViewBag.Comments)
+                        {
+                            <tr>
+                                <td>@comments.comment</td>
+                                <td>@comments.created_at.ToString("dd-MM-yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                No Comments
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Documents Section -->
+    <h5 class="mt-4">Documents</h5>
+    <form asp-action="UploadDocument" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="caseId" value="@Model.case_id" />
+        <div class="mb-3">
+            <input type="file" name="file" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">
+            Upload Document
+        </button>
+    </form>
+
+    <a asp-action="Index" class="btn btn-secondary mt-3">
+        Back
+    </a>
+</div>

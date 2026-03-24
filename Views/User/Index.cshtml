@@ -1,0 +1,43 @@
+@model List<CaseInvestigationManagementSystem.Models.CaseModel>
+@{
+    ViewData["Title"] = "My Cases";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h3>My Cases</h3>
+        <a asp-action="AddCase" class="btn btn-primary">
+            + New Case
+        </a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var c in Model)
+            {
+                <tr>
+                    <td>@c.title</td>
+                    <td>@c.description</td>
+                    <td>@c.priority</td>
+                    <td>@c.status</td>
+                    <td>
+                        <a asp-action="CaseDetails" 
+                           asp-route-id="@c.case_id"
+                           class="btn btn-info btn-sm">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

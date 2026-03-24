@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CaseNexus</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CaseNexus.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand">CaseNexus</a>
+        
+                <div class="d-flex align-items-center">
+        
+                    <!-- Badge — Admin ke liye -->
+                    @if (Context.Session.GetString("role") == "Admin")
+                    {
+                        <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-warning btn-sm me-2">
+                            🔔 Cases
+                            <span id="caseBadge" class="badge bg-danger">0</span>
+                        </a>
+                    }
+
+                    <!-- Username + Role -->
+                    @if (Context.Session.GetString("role") != null)
+                    {
+                        <span class="text-white me-3">
+                            👤 @Context.Session.GetString("username")
+                        </span>
+                        <span class="badge bg-primary me-3">
+                            @Context.Session.GetString("role")
+                        </span>
+                        <a asp-controller="User" asp-action="Logout" class="btn btn-danger btn-sm">
+                            Logout
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="User" asp-action="Login" class="btn btn-primary btn-sm">
+                            Login
+                        </a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - CaseNexus - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

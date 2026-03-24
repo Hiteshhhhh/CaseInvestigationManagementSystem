@@ -1,0 +1,18 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+
+# Secret files - GitHub pe nahi jaayega!
+appsettings.Development.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep

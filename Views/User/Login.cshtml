@@ -1,0 +1,43 @@
+@model CaseInvestigationManagementSystem.Models.UserModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h2 class="text-center mb-4">Login</h2>
+            <hr />
+
+            @if (TempData["msg"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["msg"]
+                </div>
+            }
+
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label>Email</label>
+                    <input asp-for="email" 
+                           class="form-control" 
+                           type="email" />
+                </div>
+                <div class="mb-3">
+                    <label>Password</label>
+                    <input asp-for="password_hash" 
+                           class="form-control" 
+                           type="password" />
+                </div>
+                <button type="submit" 
+                        class="btn btn-primary w-100">
+                    Login
+                </button>
+                <p class="text-center mt-3">
+                    New user?
+                    <a asp-action="Register">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

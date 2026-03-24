@@ -1,0 +1,73 @@
+@model CaseInvestigationManagementSystem.Models.CaseModel
+@{
+    ViewData["Title"] = "Case Details";
+}
+
+<div class="container mt-4">
+    <h3>Case Details</h3>
+    <hr />
+
+    <div class="card">
+        <div class="card-body">
+            <h5>@Model.title</h5>
+            <p><strong>Description:</strong> @Model.description</p>
+            <p><strong>Priority:</strong> @Model.priority</p>
+            <p><strong>Status:</strong> @Model.status</p>
+            <p><strong>Deadline:</strong> @Model.deadline</p>
+            <!-- Comments List -->
+            <h5 class="mt-4">Comments</h5>
+            @if (ViewBag.Comment != null)
+            {
+                @foreach (var comment in ViewBag.Comment)
+                {
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <p>@comment.comment</p>
+                            <small class="text-muted">
+                                @comment.created_at
+                            </small>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No comments yet!</p>
+            }
+        </div>
+    </div>
+
+    <!-- Investigator Actions -->
+    <!-- 1. Status Update -->
+    <div class="card mt-3">
+        <form asp-action="UpdateStatus" method="post">
+            <input type="hidden" name="caseId" value="@Model.case_id" />
+            <select name="status" class="form-control">
+                <option value="Open">Open</option>
+                <option value="InReview">InReview</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+            </select>
+            <button type="submit" class="btn btn-success mt-2">
+                Update Status
+            </button>
+        </form>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <form asp-action="AddComment" method="post" asp-route-caseId="@Model.case_id">
+                <div class="mb-3">
+                    <textarea name="comment" class="form-control" rows="3" placeholder="Write your comment...">
+                </textarea>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    Add Comment
+                </button>
+            </form>
+        </div>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary mt-3">
+        Back
+    </a>
+</div>

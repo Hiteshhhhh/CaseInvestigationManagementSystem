@@ -1,0 +1,171 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5>Total Cases</h5>
+                    <h2>@ViewBag.TotalCases</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5>Open</h5>
+                    <h2>@ViewBag.TotalOpen</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5>InReview</h5>
+                    <h2>@ViewBag.TotalInReview</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5>Resolved</h5>
+                    <h2>@ViewBag.TotalResolved</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Status wise Cases</h5>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Priority wise Cases</h5>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Action -->
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-primary">
+            View All Cases
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+    <script>
+        // ========== SignalR ==========
+        const connection = new signalR
+        .HubConnectionBuilder()
+        .withUrl("/notificationHub")
+        .withAutomaticReconnect()
+        .build();
+
+        connection.on("NewCaseAlert", function (data) {
+        showToast(`🔔 New Case: ${data.title} 
+        by ${data.submittedBy} 
+        at ${data.time}`);
+        
+        let badge = document.getElementById("caseBadge");
+        if (badge) {
+        badge.innerText =
+        parseInt(badge.innerText || 0) + 1;
+        }
+        });
+
+        connection.start()
+        .then(() => console.log("SignalR Connected ✅"))
+        .catch(err => console.error("SignalR Error:", err));
+
+        function showToast(message) {
+        let toast = document.createElement("div");
+        toast.className =
+        "alert alert-info position-fixed top-0 end-0 m-3";
+        toast.style.zIndex = "9999";
+        toast.style.minWidth = "300px";
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+        }
+        
+        // Bar Chart - Status wise
+        $.ajax({
+        url: '/Admin/GetStatusStats',
+        type: 'GET',
+        success: function (data) {
+        var ctx = document.getElementById('barChart');
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: Object.keys(data),
+        datasets: [{
+        label: 'Cases',
+        data: Object.values(data),
+        backgroundColor: [
+        '#ffc107', // Open - Yellow
+        '#17a2b8', // InReview - Blue
+        '#28a745', // Resolved - Green
+        '#6c757d'  // Closed - Grey
+        ]
+        }]
+        },
+        options: {
+        responsive: true,
+        plugins: {
+        legend: { display: false }
+        }
+        }
+        });
+        }
+        });
+
+        // Pie Chart - Priority wise
+        $.ajax({
+        url: '/Admin/GetPriorityStats',
+        type: 'GET',
+        success: function (data) {
+        var ctx = document.getElementById('pieChart');
+        new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: Object.keys(data),
+        datasets: [{
+        data: Object.values(data),
+        backgroundColor: [
+        '#28a745', // Low - Green
+        '#ffc107', // Medium - Yellow
+        '#fd7e14', // High - Orange
+        '#dc3545'  // Critical - Red
+        ]
+        }]
+        },
+        options: {
+        responsive: true
+        }
+        });
+        }
+        });
+    </script>
+}

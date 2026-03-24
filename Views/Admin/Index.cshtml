@@ -1,0 +1,56 @@
+@model List<CaseInvestigationManagementSystem.Models.CaseModel>
+@{
+    ViewData["Title"] = "All Cases";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between 
+                align-items-center mb-3">
+        <h1>Hello Admin 👋</h1>
+    </div>
+    <h3>All Cases</h3>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>    
+                <th>Case ID</th>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.case_id</td>
+                    <td>@c.title</td>
+                    <td>@c.priority</td>
+                    <td>@c.status</td>
+                    <td class="@(c.deadline < DateTime.Now && 
+                                 c.status != "Closed" ? 
+                                 "text-danger fw-bold" : "")">
+                        @c.deadline?.ToString("dd-MM-yyyy")
+                        @if(c.deadline < DateTime.Now && 
+                            c.status != "Closed" && 
+                            c.deadline != null)
+                        {
+                            <span class="badge bg-danger">
+                                SLA Breached!
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="CaseDetails"
+                           asp-route-id="@c.case_id"
+                           class="btn btn-info btn-sm">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

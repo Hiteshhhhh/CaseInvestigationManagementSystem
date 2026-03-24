@@ -1,0 +1,30 @@
+@model CaseInvestigationManagementSystem.Models.CaseModel
+@{
+    ViewData["Title"] = "Add Case";
+}
+
+<div class="container mt-4">
+    <h3>Submit New Case</h3>
+    <hr/>
+    <form asp-action="AddCase" method="post">
+        <div class="mb-3">
+            <label>Title</label>
+            <input asp-for="title" 
+                   class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label>Description</label>
+            <textarea asp-for="description" 
+                      class="form-control" 
+                      rows="4"></textarea>
+        </div>
+        <button type="submit" 
+                class="btn btn-primary">
+            Submit Case
+        </button>
+        <a asp-action="Index" 
+           class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+</div>

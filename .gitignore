@@ -9,6 +9,9 @@ obj/
 # Secret files - GitHub pe nahi jaayega!
 appsettings.Development.json
 
+# Docker local secrets
+.env
+
 # OS files
 .DS_Store
 Thumbs.db

@@ -29,7 +29,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseSession();
-app.UseHttpsRedirection();
+// In containers (and some Azure configurations) HTTPS may not be configured.
+// Only enable HTTPS redirection when an HTTPS port is explicitly provided.
+if (!string.IsNullOrWhiteSpace(app.Configuration["ASPNETCORE_HTTPS_PORT"]))
+{
+    app.UseHttpsRedirection();
+}
 app.UseStaticFiles();
 
 app.UseRouting();

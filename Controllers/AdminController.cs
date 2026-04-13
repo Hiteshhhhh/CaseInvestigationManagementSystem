@@ -9,6 +9,8 @@ public class AdminController : Controller
     private readonly ICaseRepository Case;
     private readonly IUserRepository user;
     private readonly IAuditRepository audit;
+    
+    //Constructor injection for repositories
     public AdminController(ICaseRepository caseRepository, IUserRepository userRepository, IAuditRepository auditRepository)
     {
         Case = caseRepository;

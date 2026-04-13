@@ -4,6 +4,7 @@ WORKDIR /src
 COPY ["CaseInvestigationManagementSystem.csproj", "./"]
 
 RUN dotnet restore "CaseInvestigationManagementSystem.csproj"
+RUN apt-get update && apt-get install -y libgssapi-krb5-2
 
 COPY . .
 

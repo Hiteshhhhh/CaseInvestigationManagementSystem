@@ -7,8 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <PackageReference Include="Google.Cloud.AIPlatform.V1" Version="3.70.0" />
     <PackageReference Include="Npgsql" Version="10.0.1" />
+=======
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql" Version="8.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+>>>>>>> f47e5b5dd25d827ff896aa5617cada90325c82ef
   </ItemGroup>
 
 </Project>

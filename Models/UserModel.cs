@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 namespace CaseInvestigationManagementSystem.Models
 {
     public class UserModel
     {
+        [Key]
         public int user_id {get;set;}
         public string? username{get;set;}
         public string? password_hash{get;set;}

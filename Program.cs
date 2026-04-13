@@ -1,9 +1,16 @@
 using CaseInvestigationManagementSystem.Hubs;
 using CaseInvestigationManagementSystem.Repositories;
+<<<<<<< HEAD
 using CaseInvestigationManagementSystem.Services;
+=======
+using Microsoft.EntityFrameworkCore;
+using CaseInvestigationManagementSystem.Data;
+>>>>>>> f47e5b5dd25d827ff896aa5617cada90325c82ef
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();

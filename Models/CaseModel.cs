@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 namespace CaseInvestigationManagementSystem.Models
 {
     public class CaseModel
     {
+        [Key]
         public int case_id { get; set; }
         public string? title { get; set; }
         public string? description { get; set; }

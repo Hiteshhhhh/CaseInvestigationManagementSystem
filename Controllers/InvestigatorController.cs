@@ -3,6 +3,7 @@ using CaseInvestigationManagementSystem.Models;
 using CaseInvestigationManagementSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+
 public class InvestigatorController : Controller
 {
     private readonly ICaseRepository _cases;

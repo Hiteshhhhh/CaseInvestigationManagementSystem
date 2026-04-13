@@ -1,5 +1,6 @@
 using CaseInvestigationManagementSystem.Hubs;
 using CaseInvestigationManagementSystem.Repositories;
+using CaseInvestigationManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,11 @@ builder.Services.AddScoped<ICaseRepository,CaseRepository>();
 builder.Services.AddScoped<IDocumentRepository,DocumentRepository>();
 builder.Services.AddScoped<ICommentRepository,CommentRepository>();
 builder.Services.AddScoped<IAuditRepository, AuditRepository>();
+
+builder.Services.AddHttpClient<GeminiService>();
+builder.Services.AddScoped<GeminiService>();
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSignalR();
 builder.Services.AddSession(o =>
 {

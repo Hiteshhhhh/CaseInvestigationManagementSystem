@@ -11,6 +11,7 @@ public class CaseRepository : ICaseRepository
     {
         connection = new NpgsqlConnection(configuration.GetConnectionString("DefaultConnection"));
     }
+    
     public void AddCase(CaseModel Case)
     {
         try
